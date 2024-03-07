@@ -6,7 +6,6 @@ use serde::*;
 use serde_json::*;
 use std::{sync::Arc, time::Instant};
 use tokio::sync::Mutex;
-use std::io::Write; // <--- bring flush() into scope
 
 mod api;
 pub use api::*;
@@ -136,8 +135,8 @@ async fn main() -> Result<()> {
         args: args.clone(),
     };
 
-    println!(
-        "new job! ticker: {:?} difficulty: {:?}",
+    print!(
+        "\nnew job! ticker: {:?} difficulty: {:?}\n",
         token.ticker, token.difficulty
     );
 
@@ -161,7 +160,6 @@ async fn main() -> Result<()> {
 
         let mut challenge_bytes = hex::decode(work.challenge.clone()).unwrap();
         challenge_bytes.reverse();
-
         let results = bucket
             .par_iter()
             .map(|prefix| {
@@ -221,5 +219,4 @@ async fn main() -> Result<()> {
 
         nonce = nonce + 1;
     }
-    print!("\n");
 }
