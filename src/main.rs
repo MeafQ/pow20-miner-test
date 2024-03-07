@@ -136,7 +136,7 @@ async fn main() -> Result<()> {
     };
 
     print!(
-        "\nnew job! ticker: {:?} difficulty: {:?}\n\n",
+        "\nnew job! ticker: {:?} difficulty: {:?}                      \n\n",
         token.ticker, token.difficulty
     );
 
