@@ -203,14 +203,16 @@ async fn main() -> Result<()> {
         let stats_lock = ctx.stats.lock().await;
         let stats = stats_lock.clone();
         drop(stats_lock);
-
+        
         print!(
-            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s                             \r",
+            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s bucketsize: {} duration: {duration}                            \r",
             hex::encode(&challenge_bytes[0..4]),
             work.difficulty,
             stats.accepted,
             stats.rejected,
-            bucket.len() as f64 * ((duration as f64) / 1000_000.0)
+            bucket.len() as f64 / 1000.0 * (duration as f64 / 1000),
+            bucket.len(),
+            duration
         );
 
         for res in results {
