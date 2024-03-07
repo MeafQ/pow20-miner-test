@@ -54,7 +54,7 @@ pub async fn update_work(ctx: &Context) -> () {
         if lock.challenge != new_work.challenge {
             *lock = new_work;
             println!(
-                "new job! ticker: {:?} difficulty: {:?}",
+                "new job! ticker: {:?} difficulty: {:?}                                     |\n\n",
                 lock.ticker, lock.difficulty,
             );
         }
@@ -66,7 +66,7 @@ pub async fn submit_work(solution: &Solution, ctx: &Context) -> () {
     let submit_res = ctx.api_client.submit_share(solution).await;
 
     println!(
-        "[{}] found solution! submitting... submit solution\n\tnonce: {:?}\n\thash: {:?}\n\tlocation: {:?}\n\tchallenge: {:?}",
+        "[{}] found solution! submitting... submit solution\n\tnonce: {:?}\n\thash: {:?}\n\tlocation: {:?}\n\tchallenge: {:?}                                     |\n\n",
         hex::encode(&solution.challenge[0..4]),
         solution.nonce,
         solution.hash,
@@ -87,7 +87,7 @@ pub async fn submit_work(solution: &Solution, ctx: &Context) -> () {
             stats_lock.rejected = stats_lock.rejected + 1;
 
             println!(
-                "[{}] ❌ rejected share {:?}",
+                "[{}] ❌ rejected share {:?}                                     |\n\n",
                 hex::encode(&solution.challenge[0..4]),
                 response
             )
@@ -97,7 +97,7 @@ pub async fn submit_work(solution: &Solution, ctx: &Context) -> () {
     }
 
     if let Err(r) = submit_res {
-        println!("❌ reject share: {}", r)
+        println!("❌ reject share: {}                                     |\n\n", r)
     }
 
     update_work(ctx).await;
@@ -110,7 +110,7 @@ async fn main() -> Result<()> {
 
 
     if let Err(_) = args.address.parse::<Address>() {
-        println!("failed to parse address: {}", args.address);
+        println!("failed to parse address: {}                                     |\n\n", args.address);
         return Ok(());
     }
 
@@ -122,8 +122,8 @@ async fn main() -> Result<()> {
     let token = match api_client.fetch_ticker(&args.tick).await {
         Ok(v) => v,
         Err(e) => {
-            println!("failed to fetch tick: {:?}                        |\n\n", args.tick);
-            println!("{:?}                        |\n\n", e);
+            println!("failed to fetch tick: {:?}                                     |\n\n", args.tick);
+            println!("{:?}                                     |\n\n", e);
             return Ok(());
         }
     };
