@@ -153,7 +153,7 @@ async fn main() -> Result<()> {
     });
 
     let mut nonce: u16 = 1;
-    let mut bucket_size:usize = num_cpus*1_000_000;
+    let mut bucket_size:usize = num_threads*1_000_000;
     let bucket = (0..bucket_size).collect::<Vec<u32>>();
     let chunk_size: usize = 1_000_000;
     loop {
