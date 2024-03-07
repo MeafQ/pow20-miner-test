@@ -205,14 +205,12 @@ async fn main() -> Result<()> {
         drop(stats_lock);
         
         print!(
-            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s bucketsize: {} duration: {}                            \r",
+            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s                               \r",
             hex::encode(&challenge_bytes[0..4]),
             work.difficulty,
             stats.accepted,
             stats.rejected,
             bucket.len() as f64 / 1000.0 / ((duration as f64) / 1000.0),
-            bucket.len(),
-            duration
         );
 
         for res in results {
