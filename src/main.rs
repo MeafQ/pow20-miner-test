@@ -199,7 +199,7 @@ async fn main() -> Result<()> {
             })
             .collect::<Vec<_>>();
 
-        let duration = start_time.elapsed().as_millis();
+        let duration = start_time.elapsed().as_micros();
         let stats_lock = ctx.stats.lock().await;
         let stats = stats_lock.clone();
         drop(stats_lock);
@@ -210,7 +210,7 @@ async fn main() -> Result<()> {
             work.difficulty,
             stats.accepted,
             stats.rejected,
-            bucket.len() as f64 / 1000.0 / duration as f64
+            bucket.len() as f64 / 1000_000.0 / duration as f64
         );
 
         for res in results {
