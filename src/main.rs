@@ -151,7 +151,7 @@ async fn main() -> Result<()> {
     });
 
     let mut nonce: u16 = 1;
-    let bucket_size:u32 = 100_000 * (num_threads as u32);
+    let bucket_size:u32 = 8_000_000;
     let bucket = (0..bucket_size).collect::<Vec<u32>>();
     loop {
         let start_time = Instant::now();
