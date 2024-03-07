@@ -66,7 +66,7 @@ pub async fn submit_work(solution: &Solution, ctx: &Context) -> () {
     let submit_res = ctx.api_client.submit_share(solution).await;
 
     println!(
-        "[{}] found solution! submitting... submit solution\n\tnonce: {:?}\n\thash: {:?}\n\tlocation: {:?}\n\tchallenge: {:?}                                     |\n\n",
+        "[{}] found solution! submitting... submit solution\n\tnonce: {:?}\n\thash: {:?}\n\tlocation: {:?}\n\tchallenge: {:?}                                     \n\n",
         hex::encode(&solution.challenge[0..4]),
         solution.nonce,
         solution.hash,
@@ -80,14 +80,14 @@ pub async fn submit_work(solution: &Solution, ctx: &Context) -> () {
         if status_code.clone() == 201 {
             stats_lock.accepted = stats_lock.accepted + 1;
             println!(
-                "[{}] ✅ accepted share",
+                "[{}] ✅ accepted share                                     \n\n",
                 hex::encode(&solution.challenge[0..4])
             )
         } else {
             stats_lock.rejected = stats_lock.rejected + 1;
 
             println!(
-                "[{}] ❌ rejected share {:?}                                     |\n\n",
+                "[{}] ❌ rejected share {:?}                                     \n\n",
                 hex::encode(&solution.challenge[0..4]),
                 response
             )
@@ -97,7 +97,7 @@ pub async fn submit_work(solution: &Solution, ctx: &Context) -> () {
     }
 
     if let Err(r) = submit_res {
-        println!("❌ reject share: {}                                     |\n\n", r)
+        println!("❌ reject share: {}                                     \n\n", r)
     }
 
     update_work(ctx).await;
@@ -110,7 +110,7 @@ async fn main() -> Result<()> {
 
 
     if let Err(_) = args.address.parse::<Address>() {
-        println!("failed to parse address: {}                                     |\n\n", args.address);
+        println!("failed to parse address: {}                                     \n\n", args.address);
         return Ok(());
     }
 
@@ -122,7 +122,7 @@ async fn main() -> Result<()> {
     let token = match api_client.fetch_ticker(&args.tick).await {
         Ok(v) => v,
         Err(e) => {
-            println!("failed to fetch tick: {:?}                                     |\n\n", args.tick);
+            println!("failed to fetch tick: {:?}                                     \n\n", args.tick);
             println!("{:?}                                     |\n\n", e);
             return Ok(());
         }
@@ -138,7 +138,7 @@ async fn main() -> Result<()> {
     };
 
     print!(
-        "\nnew job! ticker: {:?} difficulty: {:?}                        |\n\n",
+        "\nnew job! ticker: {:?} difficulty: {:?}                        \n\n",
         token.ticker, token.difficulty
     );
 
@@ -205,7 +205,7 @@ async fn main() -> Result<()> {
         drop(stats_lock);
 
         print!(
-            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s                             |\r",
+            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s                             \r",
             hex::encode(&challenge_bytes[0..4]),
             work.difficulty,
             stats.accepted,
