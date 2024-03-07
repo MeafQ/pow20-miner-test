@@ -108,8 +108,6 @@ async fn main() -> Result<()> {
     let args = Args::parse();
     let num_threads = 2 * num_cpus::get();
 
-    rayon::ThreadPoolBuilder::new().num_threads(num_threads).build_global().unwrap();
-
 
     if let Err(_) = args.address.parse::<Address>() {
         println!("failed to parse address: {}", args.address);
