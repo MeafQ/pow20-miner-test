@@ -205,7 +205,7 @@ async fn main() -> Result<()> {
         drop(stats_lock);
 
         print!(
-            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s\r",
+            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s                             \r",
             hex::encode(&challenge_bytes[0..4]),
             work.difficulty,
             stats.accepted,
