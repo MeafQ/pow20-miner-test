@@ -124,8 +124,8 @@ async fn main() -> Result<()> {
     let token = match api_client.fetch_ticker(&args.tick).await {
         Ok(v) => v,
         Err(e) => {
-            println!("failed to fetch tick: {:?}", args.tick);
-            println!("{:?}", e);
+            println!("failed to fetch tick: {:?}                        |\n\n", args.tick);
+            println!("{:?}                        |\n\n", e);
             return Ok(());
         }
     };
@@ -140,7 +140,7 @@ async fn main() -> Result<()> {
     };
 
     print!(
-        "\nnew job! ticker: {:?} difficulty: {:?}                      \n\n",
+        "\nnew job! ticker: {:?} difficulty: {:?}                        |\n\n",
         token.ticker, token.difficulty
     );
 
