@@ -210,7 +210,7 @@ async fn main() -> Result<()> {
             work.difficulty,
             stats.accepted,
             stats.rejected,
-            bucket.len() as f64 / ((duration as f64) / 1000_000.0)
+            bucket.len() as f64 * ((duration as f64) / 1000_000.0)
         );
 
         for res in results {
