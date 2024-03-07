@@ -106,7 +106,7 @@ pub async fn submit_work(solution: &Solution, ctx: &Context) -> () {
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Args::parse();
-    let num_threads = num_cpus::get();
+    let num_threads = 2 * num_cpus::get();
 
     rayon::ThreadPoolBuilder::new().num_threads(num_threads).build_global().unwrap();
 
@@ -153,9 +153,8 @@ async fn main() -> Result<()> {
     });
 
     let mut nonce: u16 = 1;
-    let mut bucket_size:u32 = 1_000_000 * (num_threads as u32);
+    let bucket_size:u32 = 1_000_000 * (num_threads as u32);
     let bucket = (0..bucket_size).collect::<Vec<u32>>();
-    let chunk_size: usize = 1_000_000;
     loop {
         let start_time = Instant::now();
 
@@ -168,7 +167,6 @@ async fn main() -> Result<()> {
         
         let results = bucket
             .par_iter()
-            .with_min_len(chunk_size)
             .map(|prefix| {
                 let random = rand::thread_rng().gen::<[u8; 4]>();
 
