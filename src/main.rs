@@ -6,6 +6,7 @@ use serde::*;
 use serde_json::*;
 use std::{sync::Arc, time::Instant};
 use tokio::sync::Mutex;
+use std::io::Write; // <--- bring flush() into scope
 
 mod api;
 pub use api::*;
@@ -149,7 +150,7 @@ async fn main() -> Result<()> {
     });
 
     let mut nonce: u16 = 1;
-    let bucket = (0..8_000_000).collect::<Vec<u32>>();
+    let bucket = (0..32_000_000).collect::<Vec<u32>>();
 
     loop {
         let start_time = Instant::now();
@@ -202,8 +203,8 @@ async fn main() -> Result<()> {
         let stats = stats_lock.clone();
         drop(stats_lock);
 
-        println!(
-            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s",
+        print!(
+            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s\r",
             hex::encode(&challenge_bytes[0..4]),
             work.difficulty,
             stats.accepted,
@@ -220,4 +221,5 @@ async fn main() -> Result<()> {
 
         nonce = nonce + 1;
     }
+    print!("\n");
 }
