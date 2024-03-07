@@ -106,6 +106,8 @@ pub async fn submit_work(solution: &Solution, ctx: &Context) -> () {
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Args::parse();
+    let num_threads = num_cpus::get();
+    
     rayon::ThreadPoolBuilder::new().num_threads(num_threads).build_global().unwrap();
 
 
