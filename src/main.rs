@@ -106,6 +106,8 @@ pub async fn submit_work(solution: &Solution, ctx: &Context) -> () {
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Args::parse();
+    rayon::ThreadPoolBuilder::new().num_threads(num_threads).build_global().unwrap();
+
 
     if let Err(_) = args.address.parse::<Address>() {
         println!("failed to parse address: {}", args.address);
@@ -149,8 +151,8 @@ async fn main() -> Result<()> {
     });
 
     let mut nonce: u16 = 1;
-    let bucket = (0..1_000_000).collect::<Vec<u32>>();
-
+    let bucket = (0..16_000_000).collect::<Vec<u32>>();
+    let chunk_size: u32 = 100_000;
     loop {
         let start_time = Instant::now();
 
@@ -160,8 +162,10 @@ async fn main() -> Result<()> {
 
         let mut challenge_bytes = hex::decode(work.challenge.clone()).unwrap();
         challenge_bytes.reverse();
+        
         let results = bucket
             .par_iter()
+            .with_min_len(chunk_size)
             .map(|prefix| {
                 let random = rand::thread_rng().gen::<[u8; 4]>();
 
