@@ -145,13 +145,13 @@ async fn main() -> Result<()> {
     let cloned = ctx.clone();
     tokio::spawn(async move {
         loop {
-            tokio::time::sleep(tokio::time::Duration::from_millis(1000)).await;
+            tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
             update_work(&cloned).await;
         }
     });
 
     let mut nonce: u16 = 1;
-    let bucket_size:u32 = 8_000_000;
+    let bucket_size:u32 = 100_000;
     let bucket = (0..bucket_size).collect::<Vec<u32>>();
     loop {
         let start_time = Instant::now();
