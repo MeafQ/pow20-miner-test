@@ -213,10 +213,10 @@ async fn main() -> Result<()> {
             bucket.len() as f64 / 1000.0 / ((duration as f64) / 1000.0)
         );
 
-        if let Some(res) = results.next() {
+        if !results.is_empty() {
             let cloned = ctx.clone();
             tokio::spawn(async move {
-                submit_work(&res, &cloned).await;
+                submit_work(&results[0], &cloned).await;
             });
         }
 
