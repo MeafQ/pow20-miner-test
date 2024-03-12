@@ -151,7 +151,7 @@ async fn main() -> Result<()> {
     });
 
     let mut nonce: u16 = 1;
-    let bucket_size:u32 = 100_000;
+    let bucket_size:u32 = 1_000_000;
     let bucket = (0..bucket_size).collect::<Vec<u32>>();
     loop {
         let start_time = Instant::now();
@@ -205,7 +205,7 @@ async fn main() -> Result<()> {
         drop(stats_lock);
         
         print!(
-            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s                               \r",
+            "[{}] diff: {} accepted: {} rejected: {} hash: {:.2} MH/s                               \n",
             hex::encode(&challenge_bytes[0..4]),
             work.difficulty,
             stats.accepted,
@@ -213,7 +213,7 @@ async fn main() -> Result<()> {
             bucket.len() as f64 / 1000.0 / ((duration as f64) / 1000.0)
         );
 
-        for res in results {
+        if let Some(res) = results.next() {
             let cloned = ctx.clone();
             tokio::spawn(async move {
                 submit_work(&res, &cloned).await;
