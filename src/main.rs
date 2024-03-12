@@ -145,7 +145,7 @@ async fn main() -> Result<()> {
     let cloned = ctx.clone();
     tokio::spawn(async move {
         loop {
-            tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
+            tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
             update_work(&cloned).await;
         }
     });
