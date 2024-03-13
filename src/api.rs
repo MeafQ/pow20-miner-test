@@ -41,7 +41,7 @@ impl ApiClient {
 
     pub async fn submit_share(&self, solution: &Solution) -> Result<(u16, String)> {
         let payload = json!({
-            "bsvContractLocation": "",
+            "bsvContractLocation": solution.location,
             "nonce": solution.nonce,
             "tokenId": "c4f70f7f-aa51-4fa4-9b06-b29f45b9e73d",
             "winningHash": solution.hash
